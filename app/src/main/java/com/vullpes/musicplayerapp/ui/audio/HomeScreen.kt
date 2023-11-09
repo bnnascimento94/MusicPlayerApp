@@ -1,5 +1,6 @@
 package com.vullpes.musicplayerapp.ui.audio
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -152,8 +154,8 @@ fun BottomBarPlayer(
         Column(modifier = Modifier.padding(8.dp)) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
+                    .fillMaxWidth(),
+                    //.height(56.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -180,7 +182,7 @@ fun MediaPlayerController(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
-            .height(56.dp)
+            //.height(56.dp)
             .padding(4.dp)
     ) {
         PlayerIconItem(
@@ -210,6 +212,7 @@ fun ArtistInfo(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
+        Log.e("artist", audio.artist)
         PlayerIconItem(
             icon = Icons.Default.MusicNote,
             borderStroke = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSurface)
@@ -276,18 +279,41 @@ fun PlayerIconItem(
 @Composable
 fun HomeScreenPrev() {
     MusicPlayerAppTheme {
+
+
+        
         HomeScreen(
             progress = 50f,
             onProgress = {},
             isAudioPlaying = true,
             audiList = listOf(
-                Audio(uri ="".toUri(), displayName = "Title One", id= 0L, artist = "Said", data ="", duration = 0,title = "Title One"),
-                Audio(uri ="".toUri(), displayName =  "Title Two", id =0L, artist = "Unknown", data="", duration =  0, title ="Title two"),
+                Audio(uri ="", displayName = "Title One", id= 0L, artist = "Said", data ="", duration = 0,title = "Title One"),
+                Audio(uri ="", displayName =  "Title Two", id =0L, artist = "Unknown", data="", duration =  0, title ="Title two"),
             ),
-            currentPlaying = Audio(uri = "".toUri(), displayName =  "Title One",id = 0L, artist = "Said", data ="", duration =  0,title = ""),
+            currentPlaying = Audio(uri = "", displayName =  "Title One",id = 0L, artist = "Said", data ="", duration =  0,title = "teste"),
             onStart = {},
             onItemClick = {},
             onNext = {}
         )
     }
+}
+
+
+@Preview
+@Composable
+fun BottomAppBarPreview() {
+    BottomBarPlayer(
+        progress = 0.5f,
+        onProgress = {},
+        audio = Audio(uri = "", displayName =  "Title One",id = 0L, artist = "Said", data ="", duration =  0,title = "teste"),
+        onNext = {},
+        onStart = {},
+        isAudioPlaying = true
+    )
+}
+
+@Preview
+@Composable
+fun ArtistInfoPrev() {
+  ArtistInfo(audio = Audio(uri = "", displayName =  "Title One",id = 0L, artist = "Said", data ="", duration =  0,title = "teste"))
 }

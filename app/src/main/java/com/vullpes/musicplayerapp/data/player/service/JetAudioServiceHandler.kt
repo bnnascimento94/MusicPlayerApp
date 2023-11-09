@@ -3,6 +3,7 @@ package com.vullpes.musicplayerapp.data.player.service
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -22,6 +23,7 @@ class JetAudioServiceHandler @Inject constructor(
     private var job: Job?= null
     init {
         exoPlayer.addListener(this)
+        job = Job()
     }
 
     fun addMediaItem(mediaItem: MediaItem){
@@ -77,6 +79,7 @@ class JetAudioServiceHandler @Inject constructor(
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         _audioState.value = JetAudioState.Playing(isPlaying = isPlaying)
         _audioState.value = JetAudioState.CurrentPlaying(exoPlayer.currentMediaItemIndex)
+
         if(isPlaying){
             GlobalScope.launch(Dispatchers.Main) {
                 startProgressUpdate()

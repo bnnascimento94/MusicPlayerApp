@@ -33,6 +33,8 @@ class MainActivity : ComponentActivity() {
     private val viewModel:AudioViewModel by viewModels()
     private var isServiceRunning = false
 
+
+
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

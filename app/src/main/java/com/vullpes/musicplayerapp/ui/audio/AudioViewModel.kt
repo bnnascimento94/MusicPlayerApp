@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.saveable
 import androidx.media3.common.MediaMetadata
 import com.vullpes.musicplayerapp.data.local.model.Audio
+import com.vullpes.musicplayerapp.data.local.model.toMediaItem
 import com.vullpes.musicplayerapp.data.player.service.JetAudioServiceHandler
 import com.vullpes.musicplayerapp.data.player.service.JetAudioState
 import com.vullpes.musicplayerapp.data.player.service.PlayerEvent
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private val audioDummy = Audio(
-    0L,"".toUri(),"","","",100,""
+    0L,"","","","",0,""
 
 )
 
@@ -99,9 +100,10 @@ class AudioViewModel @Inject constructor(
     }
 
     private fun formatDuration(duration:Long):String{
-        val minute = TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS)
-        val seconds = (minute) -minute * TimeUnit.SECONDS.convert(1, TimeUnit.MINUTES)
-        return String.format("%02d:%02d", minute, seconds)
+        val minutes: Long = TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS)
+        val seconds: Long = (TimeUnit.SECONDS.convert(duration, TimeUnit.MILLISECONDS)
+                - minutes * TimeUnit.SECONDS.convert(1, TimeUnit.MINUTES))
+        return String.format("%02d:%02d", minutes, seconds)
     }
 
     override fun onCleared() {

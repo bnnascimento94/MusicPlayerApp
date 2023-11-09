@@ -78,7 +78,7 @@ constructor(@ApplicationContext val context: Context) {
                         )
 
                         audioList += Audio(
-                            uri = uri,
+                            uri = uri.toString(),
                             displayName = displayName,
                             id = id,
                             artist = artist,
