@@ -89,4 +89,13 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.45")
     // Coil
     implementation("io.coil-kt:coil-compose:2.3.0")
+
+
+    //retrofit dependencies and Gson for Json converter
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("com.github.claucookie.miniequalizer:library:1.0.0")
+
+
 }

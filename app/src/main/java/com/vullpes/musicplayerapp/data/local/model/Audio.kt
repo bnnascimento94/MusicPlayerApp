@@ -1,6 +1,5 @@
 package com.vullpes.musicplayerapp.data.local.model
 
-import android.net.Uri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import java.io.Serializable
@@ -12,7 +11,8 @@ data class Audio(
     val artist:String,
     val data:String,
     val duration: Int,
-    val title:String
+    val title:String,
+    var isSelectedTrack:Boolean = false
 ): Serializable
 
 

@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     HomeScreen(
                         progress = viewModel.progress,
+                        progressTimeString = viewModel.progressString,
                         onProgress = {viewModel.onUiEvents(UIEvents.SeekTo(it))},
                         isAudioPlaying = viewModel.isPlaying,
                         currentPlaying = viewModel.currentSelectedAudio,
@@ -71,6 +72,9 @@ class MainActivity : ComponentActivity() {
                         },
                         onNext = {
                             viewModel.onUiEvents(UIEvents.SeekToNext)
+                        },
+                        onBack = {
+                            viewModel.onUiEvents(UIEvents.SeekToBack)
                         }
                     )
                 }
