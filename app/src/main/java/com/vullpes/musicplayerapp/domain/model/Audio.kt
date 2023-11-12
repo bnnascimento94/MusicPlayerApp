@@ -1,4 +1,4 @@
-package com.vullpes.musicplayerapp.data.local.model
+package com.vullpes.musicplayerapp.domain.model
 
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -16,14 +16,3 @@ data class Audio(
 ): Serializable
 
 
-
-fun Audio.toMediaItem() = MediaItem.Builder()
-    .setUri(uri)
-    .setMediaMetadata(
-        MediaMetadata.Builder()
-            .setAlbumArtist(artist)
-            .setDisplayTitle(title)
-            .setSubtitle(displayName)
-            .build()
-    )
-    .build()

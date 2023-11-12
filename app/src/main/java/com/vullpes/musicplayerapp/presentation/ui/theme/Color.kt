@@ -1,4 +1,4 @@
-package com.vullpes.musicplayerapp.ui.theme
+package com.vullpes.musicplayerapp.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

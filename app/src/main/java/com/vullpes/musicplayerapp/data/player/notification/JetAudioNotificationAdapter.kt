@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.vullpes.musicplayerapp.R
 
 @UnstableApi
 class JetAudioNotificationAdapter(
@@ -32,6 +33,7 @@ class JetAudioNotificationAdapter(
         Glide.with(context)
             .asBitmap()
             .load(player.mediaMetadata.artworkUri)
+            .placeholder(R.drawable.image_placeholder)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(object : CustomTarget<Bitmap>(){
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {

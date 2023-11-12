@@ -1,6 +1,6 @@
-package com.vullpes.musicplayerapp.data.local.model
+package com.vullpes.musicplayerapp.data.dto
 
-import com.google.common.math.IntMath
+import com.vullpes.musicplayerapp.domain.model.Audio
 
 data class SoundTrack(
     val id: String,
