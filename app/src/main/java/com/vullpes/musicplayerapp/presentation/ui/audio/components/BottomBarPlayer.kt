@@ -1,6 +1,7 @@
 package com.vullpes.musicplayerapp.presentation.ui.audio.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -40,7 +41,7 @@ fun BottomBarPlayer(
 ) {
 
 
-    Row(modifier = Modifier.padding(start = 0.dp,end=0.dp,top =8.dp).background(color = Color.White), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier.padding(start = 0.dp,end=0.dp,top =8.dp).background(color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else Color.White), verticalAlignment = Alignment.CenterVertically) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(audio.data)
