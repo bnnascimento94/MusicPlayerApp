@@ -5,7 +5,7 @@ import androidx.media3.common.MediaMetadata
 import java.io.Serializable
 
 data class Audio(
-    val id: Long,
+    val id: String,
     val uri: String,
     val displayName:String,
     val artist:String,

@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 private val audioDummy = Audio(
-    0L,"","","","",0,""
+    "","","","","",0,""
 
 )
 
