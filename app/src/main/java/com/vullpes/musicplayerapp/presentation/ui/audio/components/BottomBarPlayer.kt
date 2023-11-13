@@ -40,7 +40,7 @@ fun BottomBarPlayer(
 ) {
 
 
-    Row(modifier = Modifier.padding(start = 2.dp,end=8.dp,top =8.dp).background(color = Color.White), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier.padding(start = 0.dp,end=0.dp,top =8.dp).background(color = Color.White), verticalAlignment = Alignment.CenterVertically) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(audio.data)
