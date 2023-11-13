@@ -11,12 +11,17 @@ class MusicRepositoryImpl @Inject constructor(private val remoteAPI: EndpointDat
 
 
     override suspend fun downloadCatalog(): List<Audio> {
-        val response = remoteAPI.getMusicCatalog()
-        return if (response.isSuccessful) {
-            return response.body()?.music?.let { soundTrackList ->
-                soundTrackList.map { soundTrack -> soundTrack.toAudio() }
-            } ?: emptyList()
-        } else emptyList()
+        return try {
+            val response = remoteAPI.getMusicCatalog()
+            if (response.isSuccessful) {
+                 response.body()?.music?.let { soundTrackList ->
+                    soundTrackList.map { soundTrack -> soundTrack.toAudio() }
+                } ?: emptyList()
+            } else emptyList()
+        }catch (e:Exception){
+            return emptyList()
+        }
+
     }
 
 }
