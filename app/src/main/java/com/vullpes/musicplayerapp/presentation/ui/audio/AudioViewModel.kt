@@ -45,8 +45,7 @@ class AudioViewModel @Inject constructor(
     var currentSelectedAudio by savedStateHandle.saveable { mutableStateOf(audioDummy) }
     var audioList by savedStateHandle.saveable { mutableStateOf(listOf<Audio>()) }
 
-    private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Initial)
-    val uiState:StateFlow<UiState> = _uiState.asStateFlow()
+
 
     init {
         loadAudioData()
@@ -60,7 +59,7 @@ class AudioViewModel @Inject constructor(
                     is JetAudioState.CurrentPlaying -> {
                         setPlayingTrack(mediaState.mediaItemIndex)
                     }
-                    JetAudioState.Initial -> _uiState.value = UiState.Initial
+                    JetAudioState.Initial -> {}
                     is JetAudioState.Playing -> {
                         isPlaying = mediaState.isPlaying
                         setPlayingTrack(mediaState.mediaItemIndex)
@@ -68,7 +67,6 @@ class AudioViewModel @Inject constructor(
                     is JetAudioState.Progress -> calculateProgressValue(mediaState.progress)
                     is JetAudioState.Ready -> {
                         duration = mediaState.duration
-                        _uiState.value = UiState.Ready
                     }
                 }
             }
@@ -116,9 +114,6 @@ class AudioViewModel @Inject constructor(
         else 0f
         progressString = MusicFunctions.formatDurationMilisecondsToMinSec(currentProgress)
     }
-
-
-
 
 
     override fun onCleared() {
