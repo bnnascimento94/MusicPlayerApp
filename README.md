@@ -6,6 +6,6 @@ The first branch uses content provider in order to fetch all mp3 media files to 
 
 Technologies used: Android, Kotlin, Content Providers, MVVM, Media 3 library, Services, Dagger Hilt, API Rest, Retrofit.
 
+![image](https://github.com/bnnascimento94/MusicPlayerApp/assets/52131190/3bc49bba-6a03-472d-bce9-6d1a83796351)
 
-![image](https://github.com/bnnascimento94/MusicPlayerApp/assets/52131190/ec430179-9bd1-4287-b973-85c561e84adf)
 
