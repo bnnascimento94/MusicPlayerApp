@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startService()
         setContent {
             MusicPlayerAppTheme {
                 // A surface container using the 'background' color from the theme
@@ -66,7 +67,6 @@ class MainActivity : ComponentActivity() {
                         },
                         onItemClick ={
                             viewModel.onUiEvents(UIEvents.SelectedAudioChange(it))
-                            startService()
                         },
                         onNext = {
                             viewModel.onUiEvents(UIEvents.SeekToNext)
