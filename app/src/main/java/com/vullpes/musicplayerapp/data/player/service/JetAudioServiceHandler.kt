@@ -1,17 +1,21 @@
 package com.vullpes.musicplayerapp.data.player.service
 
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Tracks
 import androidx.media3.exoplayer.ExoPlayer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class JetAudioServiceHandler @Inject constructor(
@@ -19,7 +23,7 @@ class JetAudioServiceHandler @Inject constructor(
 ): Player.Listener {
     private val _audioState: MutableStateFlow<JetAudioState> = MutableStateFlow(JetAudioState.Initial)
     val audioState: StateFlow<JetAudioState> = _audioState.asStateFlow()
-
+    private val progressScope = CoroutineScope(Dispatchers.Main)
     private var job: Job?= null
     init {
         exoPlayer.addListener(this)
@@ -54,7 +58,7 @@ class JetAudioServiceHandler @Inject constructor(
                     }
                     else ->{
                         exoPlayer.seekToDefaultPosition(selectedAudioIndex)
-                        _audioState.value = JetAudioState.Playing(isPlaying = true)
+                        _audioState.value = JetAudioState.Playing(isPlaying = true, mediaItemIndex = exoPlayer.currentMediaItemIndex)
                         exoPlayer.playWhenReady = true
                         startProgressUpdate()
                     }
@@ -66,6 +70,8 @@ class JetAudioServiceHandler @Inject constructor(
                     (exoPlayer.duration * playerEvent.newProgress).toLong()
                 )
             }
+
+            PlayerEvent.SeekToBack -> exoPlayer.seekToPrevious()
         }
     }
 
@@ -76,12 +82,14 @@ class JetAudioServiceHandler @Inject constructor(
         }
     }
 
-    override fun onIsPlayingChanged(isPlaying: Boolean) {
-        _audioState.value = JetAudioState.Playing(isPlaying = isPlaying)
+    override fun onTracksChanged(tracks: Tracks) {
         _audioState.value = JetAudioState.CurrentPlaying(exoPlayer.currentMediaItemIndex)
+    }
 
+    override fun onIsPlayingChanged(isPlaying: Boolean) {
+        _audioState.value = JetAudioState.Playing(isPlaying = isPlaying,mediaItemIndex = exoPlayer.currentMediaItemIndex)
         if(isPlaying){
-            GlobalScope.launch(Dispatchers.Main) {
+            progressScope.launch {
                 startProgressUpdate()
             }
         }else{
@@ -89,13 +97,15 @@ class JetAudioServiceHandler @Inject constructor(
         }
     }
 
+
+
     private suspend fun playOrPause(){
         if(exoPlayer.isPlaying){
             exoPlayer.pause()
             stopProgressUpdate()
         }else{
             exoPlayer.play()
-            _audioState.value = JetAudioState.Playing(isPlaying = true)
+            _audioState.value = JetAudioState.Playing(isPlaying = true,mediaItemIndex = exoPlayer.currentMediaItemIndex)
             startProgressUpdate()
         }
     }
@@ -108,7 +118,8 @@ class JetAudioServiceHandler @Inject constructor(
     }
     private fun stopProgressUpdate(){
         job?.cancel()
-        _audioState.value = JetAudioState.Playing(isPlaying = false)
+        progressScope.cancel()
+        _audioState.value = JetAudioState.Playing(isPlaying = false, mediaItemIndex = exoPlayer.currentMediaItemIndex)
     }
 }
 
@@ -117,6 +128,8 @@ sealed class PlayerEvent{
     object SelectedAudioChange: PlayerEvent()
     object Backward: PlayerEvent()
     object SeekToNext: PlayerEvent()
+
+    object SeekToBack: PlayerEvent()
     object Forward: PlayerEvent()
     object SeekTo: PlayerEvent()
     object Stop: PlayerEvent()
@@ -128,6 +141,6 @@ sealed class JetAudioState{
     data class Ready(val duration:Long): JetAudioState()
     data class Progress(val progress:Long): JetAudioState()
     data class Buffering(val progress: Long): JetAudioState()
-    data class Playing(val isPlaying:Boolean): JetAudioState()
+    data class Playing(val isPlaying:Boolean, val mediaItemIndex: Int): JetAudioState()
     data class CurrentPlaying(val mediaItemIndex: Int): JetAudioState()
 }

@@ -69,7 +69,7 @@ class JetAudioNotificationManager @Inject constructor(
                     pendingIntent = mediaSession.sessionActivity
                 )
             )
-            .setSmallIconResourceId(R.drawable.ic_microfone)
+            .setSmallIconResourceId(R.drawable.music_player_song_svgrepo_com)
             .build()
             .also {
                 it.setMediaSessionToken(mediaSession.sessionCompatToken)
