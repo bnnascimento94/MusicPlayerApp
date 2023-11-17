@@ -1,5 +1,6 @@
 package com.vullpes.musicplayerapp.presentation.ui.audio.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -42,17 +43,11 @@ fun BottomBarPlayer(
 
 
     Row(modifier = Modifier.padding(start = 0.dp,end=0.dp,top =8.dp).background(color = if (isSystemInDarkTheme()) MaterialTheme.colorScheme.surface else Color.White), verticalAlignment = Alignment.CenterVertically) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(audio.data)
-                .crossfade(true)
-                .build(),
-            placeholder = painterResource(R.drawable.image_placeholder),
+        Image(
+            painter = painterResource(R.drawable.image_placeholder),
             contentDescription = "",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-
-
                 .padding(10.dp)
                 .clip(CircleShape)
                 .size(80.dp)
@@ -62,7 +57,7 @@ fun BottomBarPlayer(
             Row(modifier = Modifier.height(30.dp), verticalAlignment = Alignment.CenterVertically){
                 Text(text = progressTimeString, modifier = Modifier.padding(0.dp).weight(0.2f))
                 Slider(modifier = Modifier.weight(0.6f), value = progress, onValueChange = { onProgress(it) }, valueRange = 0f..100f)
-                Text(text = MusicFunctions.timeStampToDuration(audio.duration.toLong()), modifier = Modifier.padding(0.dp).weight(0.2f))
+                Text(text = MusicFunctions.formatDurationMilisecondsToMinSec(audio.duration.toLong()), modifier = Modifier.padding(0.dp).weight(0.2f))
             }
             MediaPlayerController(
                 isAudioPlaying = isAudioPlaying,

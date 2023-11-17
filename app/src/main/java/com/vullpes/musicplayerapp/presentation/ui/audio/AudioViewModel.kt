@@ -76,8 +76,8 @@ class AudioViewModel @Inject constructor(
     private fun loadAudioData(){
         viewModelScope.launch(Dispatchers.IO) {
             val audio = listMusicUseCase.invoke()
-            audioList = audio
             withContext(Dispatchers.Main){
+                audioList = audio
                 setMediaItems()
             }
         }

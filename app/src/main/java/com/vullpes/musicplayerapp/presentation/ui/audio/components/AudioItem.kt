@@ -1,5 +1,6 @@
 package com.vullpes.musicplayerapp.presentation.ui.audio.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,18 +48,14 @@ fun AudioItem(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.padding(2.dp)
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(audio.data)
-                    .crossfade(true)
-                    .build(),
-                placeholder = painterResource(R.drawable.image_placeholder),
+            Image(
+                painter = painterResource(R.drawable.image_placeholder),
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .padding(10.dp)
                     .clip(CircleShape)
-                    .size(50.dp)
+                    .size(80.dp)
             )
             Column(
                 modifier = Modifier
@@ -107,7 +104,7 @@ fun AudioItem(
                 )
             }else{
                 Text(
-                    text = MusicFunctions.timeStampToDuration(audio.duration.toLong())
+                    text = MusicFunctions.formatDurationMilisecondsToMinSec(audio.duration.toLong())
                 )
             }
 

@@ -1,6 +1,6 @@
 package com.vullpes.musicplayerapp.di
 
-import com.vullpes.musicplayerapp.data.remote.EndpointDataService
+import com.vullpes.musicplayerapp.data.local.ContentResolverHelper
 import com.vullpes.musicplayerapp.data.repository.MusicRepositoryImpl
 import com.vullpes.musicplayerapp.domain.ListMusicUseCase
 import com.vullpes.musicplayerapp.domain.MusicRepository
@@ -17,8 +17,8 @@ object DomainModule {
 
     @Provides
     @Singleton
-    fun providesMusicRepository(remoteApi: EndpointDataService): MusicRepository{
-        return MusicRepositoryImpl(remoteApi)
+    fun providesMusicRepository(contentResolver: ContentResolverHelper): MusicRepository{
+        return MusicRepositoryImpl(contentResolver)
     }
 
     @Provides
